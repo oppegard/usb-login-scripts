@@ -126,6 +126,7 @@ if check_enabled "key" "k"; then
 			echo "Failed to load SSH key";
 			exit 1;
 		fi;
+		$ABSDIR/../fun/gopokemonsay.sh
 	fi;
 fi;
 
