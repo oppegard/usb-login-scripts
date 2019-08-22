@@ -11,7 +11,29 @@ use Text::Wrap qw(wrap fill $columns);
 use File::Basename;
 use Getopt::Std;
 use Cwd;
-use Text::CharWidth qw(mbswidth);
+# use Text::CharWidth qw(mbswidth);
+
+## `mbswidth(string)` from https://metacpan.org/pod/Text::CharWidth
+use Inline C => <<'CCCCC';
+
+int mbswidth(const char *str) {
+    int r = 0, RETVAL = 0, len, len2;
+    wchar_t wstr[2];
+
+    len = strlen(str);
+    while (*str != 0) {
+        r = mbstowcs(wstr, str, 1);
+        if (r == 0 || r == -1) {RETVAL = -1; break;}
+        RETVAL += wcwidth(wstr[0]);
+        len2 = mblen(str, len+1);
+        if (len2 <= 0) {RETVAL = -1; break;}
+        str += len2; len -= len2;
+    }
+
+    return RETVAL;
+}
+CCCCC
+
 
 if (${^UTF8LOCALE}) {
     binmode STDIN, ':utf8';
@@ -112,7 +134,7 @@ sub maxlength {
     $m = -1;
     for my $i (@_) {
 	# $l = mbswidth $i;
-        $l = mbswidth $i =~ s/\e\[\d+(?>(;\d+)*)m//gr;
+        $l = mbswidth $i =~ s/\e\[\d*(?>(;\d+)*)m//gr;
 	$m = $l if ($l > $m);
     }
 ##  maxlength patch from Jeronimo Pellegrini (Closes: #165218)
