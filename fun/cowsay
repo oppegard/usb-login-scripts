@@ -14,6 +14,7 @@ use Cwd;
 # use Text::CharWidth qw(mbswidth);
 
 ## `mbswidth(string)` from https://metacpan.org/pod/Text::CharWidth
+use Inline (Config => DIRECTORY => "$ENV{'TMPDIR'}");
 use Inline C => <<'CCCCC';
 
 int mbswidth(const char *str) {
