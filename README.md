@@ -59,6 +59,15 @@ Later, you can update the load script if needed by running `git pull` from the
 `usb-login-scripts` directory (or if you are using the "full" version, by specifying
 the `--update` flag).
 
+### 👾 Extra install step to get awesome Pokemon When Loading SSH Key 👾
+`git clone https://github.com/possatti/pokemonsay` on your USB drive, at the same directory
+level where `usb-login-scripts` exists (it should live alongside, not underneath the
+directory).
+
+If the original repo has disappeared for some reason, https://github.com/oppegard/pokemonsay
+is a fork.
+
+
 ## scripts-original
 
 This is the original script from Tammer's blog. It will load your SSH key for a given
